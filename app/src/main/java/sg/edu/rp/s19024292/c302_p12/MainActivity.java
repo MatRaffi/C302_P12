@@ -30,7 +30,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.annotation.Nullable;
 
@@ -80,12 +85,25 @@ public class MainActivity extends AppCompatActivity {
                         Double longitude = jsonObj.getDouble( "Longitude");
                         String message = jsonObj.getString("Message");
 
+                        String[] splitMsg = message.split(" ");
+                        String dateTimeWhole = splitMsg[0];
+                        String[] splitDateTime = dateTimeWhole.split("\\)");
+                        String[] dateBracket = splitDateTime[0].split("\\(");
 
-                        Incident incident = new Incident(type, latitude, longitude, message);
+                        String date = dateBracket[1] + "/" + Calendar.getInstance().getInstance().get(Calendar.YEAR);
+                        date = date.replace("/","-");
+                        String time = splitDateTime[1];
+                        String dateTime = date + " " + time + ":00";
+                        Log.d("datebracket",""+dateTime);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                        Date d = dateFormat.parse(dateTime);
+
+                        Incident incident = new Incident(type, latitude, longitude, message, d);
                         al.add(incident);
                     }
                 }
-                catch (JSONException e){
+                catch (JSONException | ParseException e){
                     e.printStackTrace();
                 }
                 aa = new IncidentAdapter(getApplicationContext(), R.layout.row, al);

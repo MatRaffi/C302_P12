@@ -1,15 +1,19 @@
 package sg.edu.rp.s19024292.c302_p12;
 
+import java.util.Date;
+
 public class Incident {
 
     String Type, Message;
     Double Latitude,Longitude;
+    Date date;
 
-    public Incident(String type, Double latitude, Double longitude, String message) {
+    public Incident(String type, Double latitude, Double longitude, String message, Date date) {
         Type = type;
         Message = message;
         Latitude = latitude;
         Longitude = longitude;
+        this.date = date;
     }
 
     public String getType() {
@@ -42,6 +46,14 @@ public class Incident {
 
     public void setLongitude(Double longitude) {
         Longitude = longitude;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override
